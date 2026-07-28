@@ -78,16 +78,71 @@ group, despite having the lowest CTR** — a case where volume and
 quality of engagement diverge.
 
 ## Recommendation
-[Your stakeholder-style takeaway — e.g., "Editorial teams optimizing 
-for engagement should avoid question-mark framing and consider that 
-negative/urgent framing modestly outperforms positive framing, while 
-including numbers is not a reliable lever."]
+The strongest, most actionable finding here is straightforward: **avoid 
+question-mark framing in headlines.** A 15% relative lift in CTR is large 
+enough to justify a real editorial guideline, not just a footnote — and it 
+held up consistently across negative, neutral, and positive headlines, 
+suggesting it's a robust effect rather than a quirk of a few viral outliers.
 
-## Limitations
-- Comparisons across different tests are more observational; the 
-  strongest causal claims apply within-test
-- [Mention the June 2024 randomization-bug erratum if relevant to 
-  your subset]
+Sentiment is a secondary, more nuanced lever. Negative-leaning headlines 
+outperformed positive ones by about 8% in CTR — but positive headlines 
+still drove the most total impressions of any group. That split matters 
+for how a team acts on it: if the goal is maximizing *reach*, positive 
+framing already works well; if the goal is maximizing *engagement rate* 
+per headline shown, leaning negative or urgent is the better lever. This 
+is a case where the "best" answer depends on which metric a team is 
+actually optimizing for — worth surfacing explicitly rather than picking 
+one number to report.
+
+The presence of numbers in a headline is not a reliable lever. It cleared 
+statistical significance only because of the dataset's enormous sample 
+size — a ~1% relative lift is not something I'd recommend building an 
+editorial rule around.
+
+More broadly: this project is a useful reminder that "statistically 
+significant" and "worth acting on" are different questions, especially 
+at scale. All three features here were significant by p-value; only two 
+were actually meaningful in size.
+
+## Limitations & Next Steps
+
+**Limitations**
+- Treatment/control was defined by engineered headline features rather 
+  than a built-in experimental label, since the raw data doesn't 
+  distinguish "treatment" from "control" within a test. This is a 
+  defensible substitute, but it means cross-test comparisons (e.g., 
+  comparing a negative headline in one test to a positive headline in a 
+  different test) are more observational than a true randomized 
+  comparison, even though within-test comparisons retain real 
+  randomization.
+- Sentiment was scored using VADER, a lexicon-based tool tuned for 
+  general text and social media — it may not perfectly capture the 
+  specific emotional register Upworthy headlines were written in (e.g., 
+  moral outrage, inspiration), which a more specialized or fine-tuned 
+  model might resolve.
+- The dataset spans 2013–2015; headline strategies and reader behavior 
+  online have changed substantially since then (mobile-first reading, 
+  different platform algorithms, general "clickbait fatigue"), so these 
+  specific effect sizes shouldn't be assumed to generalize to today's 
+  media environment without re-testing.
+- This analysis used the confirmatory data split only; results were not 
+  cross-validated against the exploratory or holdout splits, which the 
+  original dataset was explicitly designed to support.
+
+**Next Steps**
+- Extend the NLP feature set beyond question marks/numbers/sentiment — 
+  headline length, presence of a named person or organization, 
+  first-person vs. second-person phrasing, and use of superlatives are 
+  all plausible additional levers worth testing with the same pipeline.
+- Validate the has_question and sentiment findings against the 
+  exploratory or holdout splits to confirm they aren't specific to the 
+  confirmatory subset.
+- A natural extension would be a predictive model (e.g., logistic 
+  regression on the engineered features) to estimate CTR for a new, 
+  unseen headline before publication — treated as a genuinely separate 
+  follow-on project rather than an extension of this one, since 
+  predictive modeling and causal inference call for different design 
+  and evaluation standards.
 
 ## Tools
 Python (pandas, VADER, statsmodels, scipy) · SQLite · Tableau
